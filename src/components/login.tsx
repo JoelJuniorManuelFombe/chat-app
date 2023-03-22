@@ -6,11 +6,15 @@ const cookies = new Cookies();
 
 
 
-export const Login = () => {
+export const Login = ({props}: any) => {
+    const {isAuthenticated} = props
+
     const authWithGoogle = async () => {
         try {
-            await signInWithPopup( auth, provider );
-            RequestCookies.set("auth-token", result.user.refreshToken)
+            let result = await signInWithPopup( auth, provider );
+            cookies.set("auth-token", result.user.refreshToken);
+            // localStorage.setItem("auth-token", result.user.refreshToken);
+            isAuthenticated(true);
         } catch (error) {
             console.log(error);
         }
